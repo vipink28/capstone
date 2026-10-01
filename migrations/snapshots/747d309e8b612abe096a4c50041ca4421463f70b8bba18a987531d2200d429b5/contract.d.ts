@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'861ed02ce031f29c1c2e6b0bf3c6eb2dc85b9b90730f4d1cb4173ca015af7d2b'>;
+  StorageHashBase<'747d309e8b612abe096a4c50041ca4421463f70b8bba18a987531d2200d429b5'>;
 export type ExecutionHash =
   ExecutionHashBase<'2f9ea11a1ed41448b8afe6b2db6185f6902583add9bbebe65b7a0604b6ea14d4'>;
 export type ProfileHash =
@@ -312,15 +312,6 @@ export type FieldOutputTypes = {
       readonly role: 'CUSTOMER' | 'ADMIN';
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     };
-    readonly Wishlist: {
-      readonly id: CodecTypes['pg/int4@1']['output'];
-      readonly userId: CodecTypes['pg/int4@1']['output'];
-    };
-    readonly WishlistItem: {
-      readonly id: CodecTypes['pg/int4@1']['output'];
-      readonly productId: CodecTypes['pg/int4@1']['output'];
-      readonly wishlistId: CodecTypes['pg/int4@1']['output'];
-    };
   };
 };
 export type FieldInputTypes = {
@@ -386,15 +377,6 @@ export type FieldInputTypes = {
       readonly password: CodecTypes['pg/text@1']['input'];
       readonly role: 'CUSTOMER' | 'ADMIN';
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
-    };
-    readonly Wishlist: {
-      readonly id: CodecTypes['pg/int4@1']['input'];
-      readonly userId: CodecTypes['pg/int4@1']['input'];
-    };
-    readonly WishlistItem: {
-      readonly id: CodecTypes['pg/int4@1']['input'];
-      readonly productId: CodecTypes['pg/int4@1']['input'];
-      readonly wishlistId: CodecTypes['pg/int4@1']['input'];
     };
   };
 };
@@ -462,15 +444,6 @@ export type StorageColumnTypes = {
       readonly role: 'CUSTOMER' | 'ADMIN';
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
     };
-    readonly Wishlist: {
-      readonly id: CodecTypes['pg/int4@1']['output'];
-      readonly userId: CodecTypes['pg/int4@1']['output'];
-    };
-    readonly WishlistItem: {
-      readonly id: CodecTypes['pg/int4@1']['output'];
-      readonly productId: CodecTypes['pg/int4@1']['output'];
-      readonly wishlistId: CodecTypes['pg/int4@1']['output'];
-    };
   };
 };
 export type StorageColumnInputTypes = {
@@ -536,15 +509,6 @@ export type StorageColumnInputTypes = {
       readonly password: CodecTypes['pg/text@1']['input'];
       readonly role: 'CUSTOMER' | 'ADMIN';
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
-    };
-    readonly Wishlist: {
-      readonly id: CodecTypes['pg/int4@1']['input'];
-      readonly userId: CodecTypes['pg/int4@1']['input'];
-    };
-    readonly WishlistItem: {
-      readonly id: CodecTypes['pg/int4@1']['input'];
-      readonly productId: CodecTypes['pg/int4@1']['input'];
-      readonly wishlistId: CodecTypes['pg/int4@1']['input'];
     };
   };
 };
@@ -635,21 +599,6 @@ export namespace Models {
     orders: public_Order[];
     readonly [RelationKeys]?: 'cart' | 'orders';
   };
-  export type public_Wishlist = {
-    id: CodecTypes['pg/int4@1']['output'];
-    userId: CodecTypes['pg/int4@1']['output'];
-    items: public_WishlistItem[];
-    user: public_User;
-    readonly [RelationKeys]?: 'items' | 'user';
-  };
-  export type public_WishlistItem = {
-    id: CodecTypes['pg/int4@1']['output'];
-    productId: CodecTypes['pg/int4@1']['output'];
-    wishlistId: CodecTypes['pg/int4@1']['output'];
-    product: public_Product;
-    wishlist: public_Wishlist;
-    readonly [RelationKeys]?: 'product' | 'wishlist';
-  };
 }
 
 export declare const models: {
@@ -662,8 +611,6 @@ export declare const models: {
     OrderItem: Models.public_OrderItem;
     Product: Models.public_Product;
     User: Models.public_User;
-    Wishlist: Models.public_Wishlist;
-    WishlistItem: Models.public_WishlistItem;
   };
 };
 
@@ -1182,113 +1129,6 @@ type ContractBase = Omit<
               indexes: readonly [];
               foreignKeys: readonly [];
             };
-            readonly Wishlist: {
-              columns: {
-                readonly id: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
-                  readonly default: {
-                    readonly kind: 'function';
-                    readonly expression: 'autoincrement()';
-                  };
-                };
-                readonly userId: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
-                };
-              };
-              primaryKey: { readonly columns: readonly ['id'] };
-              uniques: readonly [];
-              indexes: readonly [
-                {
-                  readonly name: 'Wishlist_userId_idx_a489d58a';
-                  readonly prefix: 'Wishlist_userId_idx';
-                  readonly columns: readonly ['userId'];
-                  readonly unique: false;
-                },
-              ];
-              foreignKeys: readonly [
-                {
-                  readonly source: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Wishlist';
-                    readonly columns: readonly ['userId'];
-                  };
-                  readonly target: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'User';
-                    readonly columns: readonly ['id'];
-                  };
-                },
-              ];
-            };
-            readonly WishlistItem: {
-              columns: {
-                readonly id: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
-                  readonly default: {
-                    readonly kind: 'function';
-                    readonly expression: 'autoincrement()';
-                  };
-                };
-                readonly productId: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
-                };
-                readonly wishlistId: {
-                  readonly nativeType: 'int4';
-                  readonly codecId: 'pg/int4@1';
-                  readonly nullable: false;
-                };
-              };
-              primaryKey: { readonly columns: readonly ['id'] };
-              uniques: readonly [];
-              indexes: readonly [
-                {
-                  readonly name: 'WishlistItem_productId_idx_5858600a';
-                  readonly prefix: 'WishlistItem_productId_idx';
-                  readonly columns: readonly ['productId'];
-                  readonly unique: false;
-                },
-                {
-                  readonly name: 'WishlistItem_wishlistId_idx_52926058';
-                  readonly prefix: 'WishlistItem_wishlistId_idx';
-                  readonly columns: readonly ['wishlistId'];
-                  readonly unique: false;
-                },
-              ];
-              foreignKeys: readonly [
-                {
-                  readonly source: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'WishlistItem';
-                    readonly columns: readonly ['wishlistId'];
-                  };
-                  readonly target: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Wishlist';
-                    readonly columns: readonly ['id'];
-                  };
-                },
-                {
-                  readonly source: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'WishlistItem';
-                    readonly columns: readonly ['productId'];
-                  };
-                  readonly target: {
-                    readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Product';
-                    readonly columns: readonly ['id'];
-                  };
-                },
-              ];
-            };
           };
           readonly valueSet: {
             readonly OrderStatus: {
@@ -1318,11 +1158,6 @@ type ContractBase = Omit<
     readonly OrderItem: { readonly namespace: 'public' & NamespaceId; readonly model: 'OrderItem' };
     readonly Product: { readonly namespace: 'public' & NamespaceId; readonly model: 'Product' };
     readonly User: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
-    readonly Wishlist: { readonly namespace: 'public' & NamespaceId; readonly model: 'Wishlist' };
-    readonly WishlistItem: {
-      readonly namespace: 'public' & NamespaceId;
-      readonly model: 'WishlistItem';
-    };
   };
   readonly domain: {
     readonly namespaces: {
@@ -1828,99 +1663,6 @@ type ContractBase = Omit<
                 readonly password: { readonly column: 'password' };
                 readonly role: { readonly column: 'role' };
                 readonly updatedAt: { readonly column: 'updatedAt' };
-              };
-            };
-          };
-          readonly Wishlist: {
-            readonly fields: {
-              readonly id: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
-              readonly userId: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
-            };
-            readonly relations: {
-              readonly items: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'WishlistItem';
-                };
-                readonly cardinality: '1:N';
-                readonly on: {
-                  readonly localFields: readonly ['id'];
-                  readonly targetFields: readonly ['wishlistId'];
-                };
-              };
-              readonly user: {
-                readonly to: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
-                readonly on: {
-                  readonly localFields: readonly ['userId'];
-                  readonly targetFields: readonly ['id'];
-                };
-              };
-            };
-            readonly storage: {
-              readonly table: 'Wishlist';
-              readonly namespaceId: 'public';
-              readonly fields: {
-                readonly id: { readonly column: 'id' };
-                readonly userId: { readonly column: 'userId' };
-              };
-            };
-          };
-          readonly WishlistItem: {
-            readonly fields: {
-              readonly id: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
-              readonly productId: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
-              readonly wishlistId: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
-              };
-            };
-            readonly relations: {
-              readonly product: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Product';
-                };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
-                readonly on: {
-                  readonly localFields: readonly ['productId'];
-                  readonly targetFields: readonly ['id'];
-                };
-              };
-              readonly wishlist: {
-                readonly to: {
-                  readonly namespace: 'public' & NamespaceId;
-                  readonly model: 'Wishlist';
-                };
-                readonly cardinality: 'N:1';
-                readonly nullable: false;
-                readonly on: {
-                  readonly localFields: readonly ['wishlistId'];
-                  readonly targetFields: readonly ['id'];
-                };
-              };
-            };
-            readonly storage: {
-              readonly table: 'WishlistItem';
-              readonly namespaceId: 'public';
-              readonly fields: {
-                readonly id: { readonly column: 'id' };
-                readonly productId: { readonly column: 'productId' };
-                readonly wishlistId: { readonly column: 'wishlistId' };
               };
             };
           };
