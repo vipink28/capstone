@@ -405,7 +405,7 @@
           },
           "Order": {
             "fields": {
-              "adddressText": {
+              "addressText": {
                 "nullable": false,
                 "type": {
                   "codecId": "pg/text@1",
@@ -496,8 +496,8 @@
             },
             "storage": {
               "fields": {
-                "adddressText": {
-                  "column": "adddressText"
+                "addressText": {
+                  "column": "addressText"
                 },
                 "createdAt": {
                   "column": "createdAt"
@@ -1169,7 +1169,7 @@
                 }
               ],
               "columns": {
-                "adddressText": {
+                "addressText": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": false
@@ -1547,7 +1547,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "d7c3aec318dce8482da5dc8e240b53445b255c9260c1d1f6beb8c1938fb5ee5a"
+    "storageHash": "3283302ce0594dada5492e743f746c4e900905ee7ac3e6000a1056e69a65a2d0"
   },
   "execution": {
     "executionHash": "2f9ea11a1ed41448b8afe6b2db6185f6902583add9bbebe65b7a0604b6ea14d4",

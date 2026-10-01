@@ -69,7 +69,7 @@ model Address{
   userId        Int       
   fullName      String    
   line1         String
-  line2         String
+  line2         String?
   city          String
   state         String
   postalCode    String
@@ -82,7 +82,7 @@ model Order{
   userId          Int
   total           Float
   status          OrderStatus @default(PENDING)
-  adddressText    String
+  addressText    String
   orderItems      OrderItem[]
   createdAt       TimestamptzString @default(now())
   updatedAt       temporal.updatedAtString()

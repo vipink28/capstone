@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'d7c3aec318dce8482da5dc8e240b53445b255c9260c1d1f6beb8c1938fb5ee5a'>;
+  StorageHashBase<'3283302ce0594dada5492e743f746c4e900905ee7ac3e6000a1056e69a65a2d0'>;
 export type ExecutionHash =
   ExecutionHashBase<'2f9ea11a1ed41448b8afe6b2db6185f6902583add9bbebe65b7a0604b6ea14d4'>;
 export type ProfileHash =
@@ -277,7 +277,7 @@ export type FieldOutputTypes = {
       readonly slug: CodecTypes['pg/text@1']['output'];
     };
     readonly Order: {
-      readonly adddressText: CodecTypes['pg/text@1']['output'];
+      readonly addressText: CodecTypes['pg/text@1']['output'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
@@ -343,7 +343,7 @@ export type FieldInputTypes = {
       readonly slug: CodecTypes['pg/text@1']['input'];
     };
     readonly Order: {
-      readonly adddressText: CodecTypes['pg/text@1']['input'];
+      readonly addressText: CodecTypes['pg/text@1']['input'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
@@ -409,7 +409,7 @@ export type StorageColumnTypes = {
       readonly slug: CodecTypes['pg/text@1']['output'];
     };
     readonly Order: {
-      readonly adddressText: CodecTypes['pg/text@1']['output'];
+      readonly addressText: CodecTypes['pg/text@1']['output'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
@@ -475,7 +475,7 @@ export type StorageColumnInputTypes = {
       readonly slug: CodecTypes['pg/text@1']['input'];
     };
     readonly Order: {
-      readonly adddressText: CodecTypes['pg/text@1']['input'];
+      readonly addressText: CodecTypes['pg/text@1']['input'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
@@ -551,7 +551,7 @@ export namespace Models {
     readonly [RelationKeys]?: 'product';
   };
   export type public_Order = {
-    adddressText: CodecTypes['pg/text@1']['output'];
+    addressText: CodecTypes['pg/text@1']['output'];
     createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
     id: CodecTypes['pg/int4@1']['output'];
     status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
@@ -850,7 +850,7 @@ type ContractBase = Omit<
             };
             readonly Order: {
               columns: {
-                readonly adddressText: {
+                readonly addressText: {
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
                   readonly nullable: false;
@@ -1364,7 +1364,7 @@ type ContractBase = Omit<
           };
           readonly Order: {
             readonly fields: {
-              readonly adddressText: {
+              readonly addressText: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
               };
@@ -1425,7 +1425,7 @@ type ContractBase = Omit<
               readonly table: 'Order';
               readonly namespaceId: 'public';
               readonly fields: {
-                readonly adddressText: { readonly column: 'adddressText' };
+                readonly addressText: { readonly column: 'addressText' };
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly id: { readonly column: 'id' };
                 readonly status: { readonly column: 'status' };

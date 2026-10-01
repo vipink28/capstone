@@ -2,17 +2,19 @@ import { db } from "./db";
 
 async function main() {
   const electronics = await db.orm.public.Category.create({
-    data: {
-      name: "Electronics",
-      slug: "electronics",
-    },
+    name: "Electronics",
+    slug: "electronics",
   });
   const apparel = await db.orm.public.Category.create({
-    data: {
-      name: "Apparel",
-      slug: "apparel",
-    },
+    name: "Apparel",
+    slug: "apparel",
   });
+
+  const existing = await db.orm.public.Product.first();
+  if (existing) {
+    console.log("Products already exist, skipping product seed.");
+    return;
+  }
 
   await db.orm.public.Product.createAll([
     {
@@ -46,10 +48,14 @@ async function main() {
     },
   ]);
 }
+
 main()
   .then(() => {
     console.log("Seed data created successfully.");
   })
   .catch((error) => {
     console.error("Error creating seed data:", error);
+  })
+  .finally(() => {
+    db.close();
   });
