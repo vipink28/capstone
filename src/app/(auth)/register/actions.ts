@@ -3,18 +3,21 @@ import { db } from "@/prisma/db";
 import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 
-export async function registerUser(formData: FormData) {
+export async function registerUser(
+  prevState: { error?: string },
+  formData: FormData,
+): Promise<{ error?: string }> {
   const name = formData.get("name") as string;
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
   if (!name || !email || !password) {
-    throw new Error("All fields are required");
+    return { error: "All fields are required" };
   }
 
   const existingUser = await db.orm.public.User.where({ email }).first();
   if (existingUser) {
-    throw new Error("An account with this email is already registered");
+    return { error: "An account with this email is already registered" };
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
