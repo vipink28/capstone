@@ -1,42 +1,44 @@
+import ProductCard from "@/components/ProductCard";
+import ProductFilters from "@/components/ProductFilters";
 import { db } from "@/prisma/db";
-import Image from "next/image";
-import Link from "next/link";
+import { and, all } from "@prisma/orm-postgres/orm-client";
 
-export default async function ProductsPage() {
-  const products = await db.orm.public.Product.orderBy((product) =>
-    product.createdAt.desc(),
-  ).all();
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ category?: string; maxPrice?: string }>;
+}) {
+  const { category, maxPrice } = await searchParams;
 
-  // no data received -
-  //   const products = await db.orm.public.Product.orderBy((product) =>
-  //     product.createdAt.desc(),
-  //   )
-  //     .where({ categoryId: 3 })
-  //     .all();
-
-  if (products.length === 0) {
-    return <p className="p-6 text-gray-300">No products available right now</p>;
-  }
+  const products = await db.orm.public.Product.where((p) =>
+    and(
+      category ? p.category.some({ name: category }) : all(),
+      maxPrice ? p.price.lte(Number(maxPrice)) : all(),
+    ),
+  )
+    .orderBy((p) => p.createdAt.desc())
+    .all();
 
   return (
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-6">
-      {products.map((product) => (
-        <Link
-          key={product.id}
-          href={`/products/${product.id}`}
-          className="border rounded-lg p-4 bg-gray-800"
-        >
-          <Image
-            src={product.imageUrl}
-            alt={product.name}
-            width={300}
-            height={300}
-            className="rounded-md object-cover w-full"
-          />
-          <h3 className="mt-2 font-semibold text-lg">{product.name}</h3>
-          <p className="text-gray-200">₹{product.price}</p>
-        </Link>
-      ))}
+    <div className="flex gap-6 p-6">
+      <ProductFilters />
+      <div className="flex-1">
+        {products.length === 0 ? (
+          <p className="p-6 text-gray-300">No products available right now</p>
+        ) : (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-6">
+            {products.map(({ id, name, imageUrl, price }) => (
+              <ProductCard
+                key={id}
+                id={id}
+                name={name}
+                imageUrl={imageUrl}
+                price={price}
+              />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
