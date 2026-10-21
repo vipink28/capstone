@@ -2,11 +2,15 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-const categories = ["Electronics", "Apparel", "Footwear", "Jewellery"]; // will be made dynamic later
-export default function ProductFilters() {
+interface ProductFiltersProps {
+  categories: string[];
+}
+
+// const categories = ["Electronics", "Apparel", "Footwear", "Jewellery"]; // will be made dynamic later
+export default function ProductFilters({ categories }: ProductFiltersProps) {
   const router = useRouter();
   const pathname = usePathname();
-  console.log(pathname);
+
   const searchParams = useSearchParams();
   console.log(searchParams);
 
