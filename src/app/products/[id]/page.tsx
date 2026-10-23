@@ -1,4 +1,5 @@
 import { addToCart } from "@/app/cart/actions";
+import AddToCartButton from "@/components/AddToCartButton";
 import ProductCard from "@/components/ProductCard";
 import { db } from "@/prisma/db";
 import { Metadata } from "next";
@@ -83,13 +84,10 @@ export default async function ProductDetailsPage({
             )}
           </p>
           <div className="flex">
-            <button className="bg-amber-200 px-8 py-2">Add To Wishlist</button>
-            <button
-              disabled={!product.inStock}
-              className="bg-amber-200 px-8 py-2 disabled:opacity-40"
-            >
-              Add To Cart
-            </button>
+            <button className="bg-amber-700 px-8 py-2">Add To Wishlist</button>
+            <form action={addToCart.bind(null, product.id)}>
+              <AddToCartButton disabled={!product.inStock} />
+            </form>
           </div>
         </div>
       </div>
