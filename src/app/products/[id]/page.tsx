@@ -1,3 +1,4 @@
+import { addToCart } from "@/app/cart/actions";
 import ProductCard from "@/components/ProductCard";
 import { db } from "@/prisma/db";
 import { Metadata } from "next";
