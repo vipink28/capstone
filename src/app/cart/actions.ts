@@ -1,6 +1,6 @@
 "use server";
 
-import { getOrCreateCart } from "@/lib/cart";
+import { getOrCreateCart, MAX_QUANTITY } from "@/lib/cart";
 import { requireAuth } from "@/lib/session";
 import { db } from "@/prisma/db";
 import { revalidatePath } from "next/cache";
@@ -34,6 +34,29 @@ export async function addToCart(productId: number) {
   revalidatePath("/", "layout");
 }
 
+export async function changeQuantity(cartItemId: number, changeVal: 1 | -1) {
+  const user = await requireAuth();
+  const cart = await getOrCreateCart(user.id);
+
+  await db.transaction(async (tx) => {
+    const item = await tx.orm.public.CartItem.where({
+      id: cartItemId,
+      cartId: cart.id,
+    }).first();
+
+    if (!item) return;
+    const next = item.quantity + changeVal;
+    if (next <= 0) {
+      await tx.orm.public.CartItem.where({ id: item.id }).delete();
+    } else if (next <= MAX_QUANTITY) {
+      await tx.orm.public.CartItem.where({ id: item.id }).update({
+        quantity: next,
+      });
+    }
+  });
+  revalidatePath("/", "layout");
+}
+
 export async function removeFromCart(cartItemId: number) {
   const user = await requireAuth();
   const cart = await getOrCreateCart(user.id);
@@ -42,5 +65,12 @@ export async function removeFromCart(cartItemId: number) {
     id: cartItemId,
     cartId: cart.id,
   }).delete();
+  revalidatePath("/", "layout");
+}
+
+export async function clearCart() {
+  const user = await requireAuth();
+  const cart = await getOrCreateCart(user.id);
+  await db.orm.public.CartItem.where({ cartId: cart.id }).deleteAndCount();
   revalidatePath("/", "layout");
 }

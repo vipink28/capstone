@@ -1,20 +1,12 @@
-import { getOrCreateCart } from "@/lib/cart";
+import { calculateTotal, getCartItems, MAX_QUANTITY } from "@/lib/cart";
 import { requireAuth } from "@/lib/session";
-import { db } from "@/prisma/db";
 import Image from "next/image";
 import Link from "next/link";
-import { removeFromCart } from "./actions";
+import { changeQuantity, clearCart, removeFromCart } from "./actions";
 
 export default async function CartPage() {
   const user = await requireAuth();
-  const cart = await getOrCreateCart(user.id);
-
-  const items = await db.orm.public.CartItem.include("product")
-    .where({
-      cartId: cart.id,
-    })
-    .orderBy((i) => i.id.asc())
-    .all();
+  const { items } = await getCartItems(user.id);
 
   if (items.length === 0) {
     return (
@@ -25,18 +17,16 @@ export default async function CartPage() {
     );
   }
 
-  const total = items.reduce(
-    (sum, item) => sum + item.product.price * item.quantity,
-    0,
-  );
-
+  const total = calculateTotal(items);
+  const hasUnavailable = items.some((item) => !item.product.inStock);
+  console.log(hasUnavailable);
   return (
     <div className="p-6">
       <h1 className="text-lg font-semibold">Your Cart</h1>
       <div className="space-y-3">
         {items.map((item) => (
-          <div key={item.id} className="flex gap-4">
-            <div>
+          <div key={item.id} className="flex gap-4 justify-between">
+            <div className="flex gap-4">
               <Image
                 src={item.product.imageUrl}
                 alt={item.product.name}
@@ -44,17 +34,38 @@ export default async function CartPage() {
                 height={200}
               />
               <h3 className="text-2xl font-semibold">{item.product.name}</h3>
+              {!item.product.inStock && (
+                <p>The item is out of stock - remove it to checkout</p>
+              )}
               <p>
                 {item.product.price} x {item.quantity}
               </p>
+              <div className="flex items-center gap-3">
+                <form action={changeQuantity.bind(null, item.id, -1)}>
+                  <button>-</button>
+                </form>
+                <span>{item.quantity}</span>
+                <form action={changeQuantity.bind(null, item.id, +1)}>
+                  <button disabled={item.quantity >= MAX_QUANTITY}>+</button>
+                </form>
+              </div>
             </div>
-            <form action={removeFromCart.bind(null, item.product.id)}>
+            <form action={removeFromCart.bind(null, item.id)}>
               <button type="submit">Remove</button>
             </form>
           </div>
         ))}
       </div>
       <p className="text-xl font-bold">Total: ${total.toFixed(2)}</p>
+      <form action={clearCart}>
+        <button>Clear Cart</button>
+      </form>
+
+      {hasUnavailable ? (
+        <p>Remove Unavailable items to continue</p>
+      ) : (
+        <Link href="/checkout">Proceed to Checkout</Link>
+      )}
     </div>
   );
 }
