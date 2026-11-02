@@ -4,6 +4,11 @@ enum Role {
   CUSTOMER
   ADMIN
 }
+enum PaymentMethod{
+  CASH_ON_DELIVERY
+  UPI
+  CARD
+}
 enum OrderStatus {
   PENDING
   PAID
@@ -97,7 +102,8 @@ model Order{
   userId          Int
   total           Float
   status          OrderStatus @default(PENDING)
-  addressText    String
+  addressText     String
+  PaymentMethod   PaymentMethod @default(CASH_ON_DELIVERY)
   orderItems      OrderItem[]
   createdAt       TimestamptzString @default(now())
   updatedAt       temporal.updatedAtString()

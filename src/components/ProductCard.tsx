@@ -1,3 +1,4 @@
+import { formatPrice } from "@/lib/format";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -27,7 +28,7 @@ export default function ProductCard({
         className="rounded-md object-cover w-full"
       />
       <h3 className="mt-2 font-semibold text-lg">{name}</h3>
-      <p className="text-gray-200">₹{price}</p>
+      <p className="text-gray-200">{formatPrice(price)}</p>
     </Link>
   );
 }
