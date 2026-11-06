@@ -21,12 +21,16 @@ export default async function Header() {
         </Link>
         {user ? (
           <>
+            <Link href="/orders">My Orders</Link>
             <span>Welcome, {user.name}</span>
             <Link href="/profile">Profile</Link>
             <LogoutButton />
           </>
         ) : (
-          <Link href="/login">Login</Link>
+          <>
+            <Link href="/login">Login</Link>
+            <Link href="/register">Register</Link>
+          </>
         )}
       </nav>
       <SearchBar />

@@ -23,3 +23,11 @@ export async function requireAuth() {
   }
   return user;
 }
+
+export async function requireAdmin() {
+  const user = await requireAuth();
+  if (user.role !== "ADMIN") {
+    redirect("/");
+  }
+  return user;
+}
