@@ -464,6 +464,20 @@
                   "kind": "scalar"
                 }
               },
+              "razorpayOrderId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "razorpayPaymentId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "status": {
                 "nullable": false,
                 "type": {
@@ -545,6 +559,12 @@
                 },
                 "id": {
                   "column": "id"
+                },
+                "razorpayOrderId": {
+                  "column": "razorpayOrderId"
+                },
+                "razorpayPaymentId": {
+                  "column": "razorpayPaymentId"
                 },
                 "status": {
                   "column": "status"
@@ -1501,6 +1521,16 @@
                   "nativeType": "int4",
                   "nullable": false
                 },
+                "razorpayOrderId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "razorpayPaymentId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "status": {
                   "codecId": "pg/text@1",
                   "default": {
@@ -1565,7 +1595,18 @@
                   "id"
                 ]
               },
-              "uniques": []
+              "uniques": [
+                {
+                  "columns": [
+                    "razorpayOrderId"
+                  ]
+                },
+                {
+                  "columns": [
+                    "razorpayPaymentId"
+                  ]
+                }
+              ]
             },
             "OrderItem": {
               "columns": {
@@ -2070,7 +2111,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "1966c6bc8dd705dbae50ee41af450d91b9f5ce1080ec69f56546ac72dd5dbff2"
+    "storageHash": "c83459ff1cf01e1cf84a16f373907327093eb849b05bb70057144de119125c5f"
   },
   "execution": {
     "executionHash": "56f5e6b8a726f9ed5314b3229c28b1a0c3be1af154c023ae28e59107f14592cf",

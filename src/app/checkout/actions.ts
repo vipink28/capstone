@@ -2,6 +2,7 @@
 import { calculateTotal, getCartItems } from "@/lib/cart";
 import { parseCheckoutForm } from "@/lib/checkout";
 import { formatAddress } from "@/lib/format";
+import { ensureRazorpayOrder } from "@/lib/payments";
 import { requireAuth } from "@/lib/session";
 import { db } from "@/prisma/db";
 import { revalidatePath } from "next/cache";
@@ -93,7 +94,7 @@ export async function placeOrder(
     const order = await tx.orm.public.Order.create({
       userId: user.id,
       total,
-      status,
+      status: "PENDING",
       addressText,
       PaymentMethod: input.paymentMethod,
     });
@@ -110,5 +111,15 @@ export async function placeOrder(
   });
 
   revalidatePath("/", "layout");
+
+  if (input.paymentMethod === "ONLINE") {
+    try {
+      await ensureRazorpayOrder(orderId);
+    } catch (err) {
+      console.log("could not create the razorpay order", err);
+    }
+    redirect(`/orders/${orderId}/pay`);
+  }
+
   redirect(`/orders/${orderId}`);
 }

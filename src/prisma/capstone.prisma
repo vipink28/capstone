@@ -103,6 +103,8 @@ model Order{
   status          OrderStatus @default(PENDING)
   addressText     String
   PaymentMethod   PaymentMethod @default(CASH_ON_DELIVERY)
+  razorpayOrderId String?       @unique
+  razorpayPaymentId String?     @unique
   orderItems      OrderItem[]
   createdAt       TimestamptzString @default(now())
   updatedAt       temporal.updatedAtString()

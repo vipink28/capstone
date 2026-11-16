@@ -34,7 +34,7 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'1966c6bc8dd705dbae50ee41af450d91b9f5ce1080ec69f56546ac72dd5dbff2'>;
+  StorageHashBase<'c83459ff1cf01e1cf84a16f373907327093eb849b05bb70057144de119125c5f'>;
 export type ExecutionHash =
   ExecutionHashBase<'56f5e6b8a726f9ed5314b3229c28b1a0c3be1af154c023ae28e59107f14592cf'>;
 export type ProfileHash =
@@ -281,6 +281,8 @@ export type FieldOutputTypes = {
       readonly addressText: CodecTypes['pg/text@1']['output'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly id: CodecTypes['pg/int4@1']['output'];
+      readonly razorpayOrderId: CodecTypes['pg/text@1']['output'] | null;
+      readonly razorpayPaymentId: CodecTypes['pg/text@1']['output'] | null;
       readonly status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
       readonly total: CodecTypes['pg/float8@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
@@ -369,6 +371,8 @@ export type FieldInputTypes = {
       readonly addressText: CodecTypes['pg/text@1']['input'];
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly id: CodecTypes['pg/int4@1']['input'];
+      readonly razorpayOrderId: CodecTypes['pg/text@1']['input'] | null;
+      readonly razorpayPaymentId: CodecTypes['pg/text@1']['input'] | null;
       readonly status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
       readonly total: CodecTypes['pg/float8@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
@@ -457,6 +461,8 @@ export type StorageColumnTypes = {
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
       readonly id: CodecTypes['pg/int4@1']['output'];
       readonly PaymentMethod: 'CASH_ON_DELIVERY' | 'ONLINE';
+      readonly razorpayOrderId: CodecTypes['pg/text@1']['output'] | null;
+      readonly razorpayPaymentId: CodecTypes['pg/text@1']['output'] | null;
       readonly status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
       readonly total: CodecTypes['pg/float8@1']['output'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
@@ -545,6 +551,8 @@ export type StorageColumnInputTypes = {
       readonly createdAt: CodecTypes['pg/timestamptz-string@1']['input'];
       readonly id: CodecTypes['pg/int4@1']['input'];
       readonly PaymentMethod: 'CASH_ON_DELIVERY' | 'ONLINE';
+      readonly razorpayOrderId: CodecTypes['pg/text@1']['input'] | null;
+      readonly razorpayPaymentId: CodecTypes['pg/text@1']['input'] | null;
       readonly status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
       readonly total: CodecTypes['pg/float8@1']['input'];
       readonly updatedAt: CodecTypes['pg/timestamptz-string@1']['input'];
@@ -643,6 +651,8 @@ export namespace Models {
     addressText: CodecTypes['pg/text@1']['output'];
     createdAt: CodecTypes['pg/timestamptz-string@1']['output'];
     id: CodecTypes['pg/int4@1']['output'];
+    razorpayOrderId: CodecTypes['pg/text@1']['output'] | null;
+    razorpayPaymentId: CodecTypes['pg/text@1']['output'] | null;
     status: 'PENDING' | 'PAID' | 'SHIPPED' | 'DELIVERED' | 'CANCELLED';
     total: CodecTypes['pg/float8@1']['output'];
     updatedAt: CodecTypes['pg/timestamptz-string@1']['output'];
@@ -999,6 +1009,16 @@ type ContractBase = Omit<
                     readonly expression: 'autoincrement()';
                   };
                 };
+                readonly razorpayOrderId: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
+                readonly razorpayPaymentId: {
+                  readonly nativeType: 'text';
+                  readonly codecId: 'pg/text@1';
+                  readonly nullable: true;
+                };
                 readonly status: {
                   readonly nativeType: 'text';
                   readonly codecId: 'pg/text@1';
@@ -1025,7 +1045,10 @@ type ContractBase = Omit<
                 };
               };
               primaryKey: { readonly columns: readonly ['id'] };
-              uniques: readonly [];
+              uniques: readonly [
+                { readonly columns: readonly ['razorpayOrderId'] },
+                { readonly columns: readonly ['razorpayPaymentId'] },
+              ];
               indexes: readonly [
                 {
                   readonly name: 'Order_userId_idx_a489d58a';
@@ -1699,6 +1722,14 @@ type ContractBase = Omit<
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/int4@1' };
               };
+              readonly razorpayOrderId: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly razorpayPaymentId: {
+                readonly nullable: true;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
               readonly status: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
@@ -1749,6 +1780,8 @@ type ContractBase = Omit<
                 readonly addressText: { readonly column: 'addressText' };
                 readonly createdAt: { readonly column: 'createdAt' };
                 readonly id: { readonly column: 'id' };
+                readonly razorpayOrderId: { readonly column: 'razorpayOrderId' };
+                readonly razorpayPaymentId: { readonly column: 'razorpayPaymentId' };
                 readonly status: { readonly column: 'status' };
                 readonly total: { readonly column: 'total' };
                 readonly updatedAt: { readonly column: 'updatedAt' };

@@ -4,7 +4,7 @@ export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
 export const PAYMENT_LABELS: Record<PaymentMethod, string> = {
   CASH_ON_DELIVERY: "Cash on Delivery",
-  ONLINE: "Online",
+  ONLINE: "Pay Online (UPI, Credit/Debit Card)",
 };
 
 export function isPaymentMethod(value: unknown): value is PaymentMethod {
