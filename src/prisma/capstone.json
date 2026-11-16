@@ -32,6 +32,10 @@
       "model": "Product",
       "namespace": "public"
     },
+    "SliderItem": {
+      "model": "SliderItem",
+      "namespace": "public"
+    },
     "User": {
       "model": "User",
       "namespace": "public"
@@ -82,12 +86,8 @@
                 "value": "CASH_ON_DELIVERY"
               },
               {
-                "name": "UPI",
-                "value": "UPI"
-              },
-              {
-                "name": "CARD",
-                "value": "CARD"
+                "name": "ONLINE",
+                "value": "ONLINE"
               }
             ]
           },
@@ -805,6 +805,117 @@
               "table": "Product"
             }
           },
+          "SliderItem": {
+            "fields": {
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "cto": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "description": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "endDate": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "id": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "imageUrl": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "isActive": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "order": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "title": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "updatedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {},
+            "storage": {
+              "fields": {
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "cto": {
+                  "column": "cto"
+                },
+                "description": {
+                  "column": "description"
+                },
+                "endDate": {
+                  "column": "endDate"
+                },
+                "id": {
+                  "column": "id"
+                },
+                "imageUrl": {
+                  "column": "imageUrl"
+                },
+                "isActive": {
+                  "column": "isActive"
+                },
+                "order": {
+                  "column": "order"
+                },
+                "title": {
+                  "column": "title"
+                },
+                "updatedAt": {
+                  "column": "updatedAt"
+                }
+              },
+              "namespaceId": "public",
+              "table": "SliderItem"
+            }
+          },
           "User": {
             "fields": {
               "createdAt": {
@@ -1341,8 +1452,8 @@
             "Order": {
               "checks": [
                 {
-                  "expression": "\"PaymentMethod\" IN ('CASH_ON_DELIVERY', 'UPI', 'CARD')",
-                  "name": "Order_PaymentMethod_check_cab2d66f",
+                  "expression": "\"PaymentMethod\" IN ('CASH_ON_DELIVERY', 'ONLINE')",
+                  "name": "Order_PaymentMethod_check_929ee94c",
                   "prefix": "Order_PaymentMethod_check"
                 },
                 {
@@ -1642,6 +1753,80 @@
               },
               "uniques": []
             },
+            "SliderItem": {
+              "columns": {
+                "createdAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "cto": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "description": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "endDate": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "id": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "imageUrl": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "isActive": {
+                  "codecId": "pg/bool@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": true
+                  },
+                  "nativeType": "bool",
+                  "nullable": false
+                },
+                "order": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "title": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "updatedAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                }
+              },
+              "foreignKeys": [],
+              "indexes": [],
+              "primaryKey": {
+                "columns": [
+                  "id"
+                ]
+              },
+              "uniques": []
+            },
             "User": {
               "checks": [
                 {
@@ -1869,8 +2054,7 @@
               "kind": "valueSet",
               "values": [
                 "CASH_ON_DELIVERY",
-                "UPI",
-                "CARD"
+                "ONLINE"
               ]
             },
             "Role": {
@@ -1886,10 +2070,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "6a825f2ddec9f438debd207d0b79c7009a9238358f905378949e8148c6d4156d"
+    "storageHash": "1966c6bc8dd705dbae50ee41af450d91b9f5ce1080ec69f56546ac72dd5dbff2"
   },
   "execution": {
-    "executionHash": "2f9ea11a1ed41448b8afe6b2db6185f6902583add9bbebe65b7a0604b6ea14d4",
+    "executionHash": "56f5e6b8a726f9ed5314b3229c28b1a0c3be1af154c023ae28e59107f14592cf",
     "mutations": {
       "defaults": [
         {
@@ -1918,6 +2102,21 @@
           },
           "ref": {
             "entry": "Product",
+            "field": "updatedAt",
+            "namespace": "public"
+          }
+        },
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "onUpdate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "ref": {
+            "entry": "SliderItem",
             "field": "updatedAt",
             "namespace": "public"
           }

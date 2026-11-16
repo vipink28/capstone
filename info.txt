@@ -1,0 +1,11 @@
+1. Homepage Section - Shop by category
+--- get all the categories from the database and include image of 1st product in each category.
+
+
+2. Popular Products
+--- get top 4 products from orderItems.  - this can be applied to get the data from cartItem and whishlistItem
+
+3. Newly added products
+
+
+

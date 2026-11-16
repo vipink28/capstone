@@ -1,11 +1,10 @@
-export const PAYMENT_METHODS = ["CASH_ON_DELIVERY", "UPI", "CARD"] as const; // this will make the array read only. 0 = "CASH_ON_DELIVERY"
+export const PAYMENT_METHODS = ["CASH_ON_DELIVERY", "ONLINE"] as const; // this will make the array read only. 0 = "CASH_ON_DELIVERY"
 
 export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
 
 export const PAYMENT_LABELS: Record<PaymentMethod, string> = {
   CASH_ON_DELIVERY: "Cash on Delivery",
-  UPI: "UPI",
-  CARD: "Credit/Debit Card",
+  ONLINE: "Online",
 };
 
 export function isPaymentMethod(value: unknown): value is PaymentMethod {

@@ -6,8 +6,7 @@ enum Role {
 }
 enum PaymentMethod{
   CASH_ON_DELIVERY
-  UPI
-  CARD
+  ONLINE
 }
 enum OrderStatus {
   PENDING
@@ -125,4 +124,9 @@ model SliderItem{
   description   String
   imageUrl      String
   cto           String  
+  order         Int
+  endDate       TimestamptzString
+  isActive      Boolean @default(true)
+  createdAt     TimestamptzString @default(now())
+  updatedAt     temporal.updatedAtString()
 }
