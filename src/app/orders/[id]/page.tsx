@@ -4,6 +4,7 @@ import { db } from "@/prisma/db";
 import { notFound } from "next/navigation";
 import { cancelOrder } from "../actions";
 import OrderStatusBadge from "@/components/OrderStatusBadge";
+import Link from "next/link";
 
 export default async function OrderPage({
   params,
@@ -40,6 +41,20 @@ export default async function OrderPage({
       <p className="text-sm text-gray-200">
         Placed on {order.createdAt} - <OrderStatusBadge status={order.status} />
       </p>
+      <p>
+        Payment:{" "}
+        {order.PaymentMethod === "ONLINE"
+          ? "Online(UPI/Card)"
+          : "Cash on Delivery"}
+      </p>
+
+      {isOwner &&
+        order.PaymentMethod === "ONLINE" &&
+        order.status === "PENDING" && (
+          <Link href={`/orders/${order.id}/pay`}>Pay Now</Link>
+        )}
+
+      {order.razorpayPaymentId && <p>Payment Id: {order.razorpayPaymentId}</p>}
 
       <ul className="space-y-1">
         {items.map((item) => (

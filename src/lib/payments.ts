@@ -1,8 +1,7 @@
-import { db } from "@/prisma/db";
 import "server-only";
+import { db } from "@/prisma/db";
 import { getRazorpay } from "./razorpay";
 import { toPaise } from "./razorpay-signature";
-import { create } from "domain";
 
 export async function ensureRazorpayOrder(
   orderId: number,
@@ -32,4 +31,14 @@ export async function ensureRazorpayOrder(
   });
 
   return created.id;
+}
+
+export async function markOrderAsPaid(
+  razorpayOrderId: string,
+  razorpayPaymentId: string,
+) {
+  return db.orm.public.Order.where({
+    razorpayOrderId,
+    status: "PENDING",
+  }).update({ status: "PAID", razorpayPaymentId });
 }
